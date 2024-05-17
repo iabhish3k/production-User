@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "frontend": "cd client && npm run dev",
-    "dev": "concurrently \"npm start\" \"npm run client\"",
-    "backend": "nodemon index.js"
+    "backend": "nodemon index.js",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
   },
   "author": "",
   "license": "ISC",

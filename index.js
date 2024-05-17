@@ -10,19 +10,20 @@ require('dotenv').config();
 const path = require("path");
 const port = 3000
 
+// Serve static files from the Vite build
+app.use(express.static(path.join(__dirname, 'client/dist')));
+
+// Catch-all route to serve index.html for SPA routing
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+});
 
 app.use(cors())
 app.use(morgan("dev"))
 app.use(express.json());
 
+
 app.use(router)
-
-//static files
-app.use(express.static(path.join(__dirname, "./client/dist")));
-
-app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "./client/dist/index.html"));
-});
 
     connectDB().then(()=>{
         app.listen(port, () => {
