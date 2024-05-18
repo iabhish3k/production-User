@@ -1,18 +1,21 @@
-const express = require('express')
+const express = require('express');
 const colors = require("colors");
-const bodyParser = require('body-parser')
-var cors = require('cors')
-const app = express()
-const connectDB = require('./db/index')
-const router = require('./router/index')
-const morgan = require('morgan')
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const app = express();
+const connectDB = require('./db/index');
+const router = require('./router/index');
+const morgan = require('morgan');
 require('dotenv').config();
 const path = require("path");
-const port = 3000
+const port = 3000;
 
-app.use(cors())
-app.use(morgan("dev"))
+app.use(cors());
+app.use(morgan("dev"));
 app.use(express.json());
+
+// API routes
+app.use('/api', router);
 
 // Serve static files from the Vite build
 app.use(express.static(path.join(__dirname, 'client/dist')));
@@ -22,20 +25,10 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/dist/index.html'));
 });
 
-
-
-
-app.use(router)
-
-    connectDB().then(()=>{
-        app.listen(port, () => {
-            console.log(`App listening on port ${port}`.bgCyan.white)
-          })
-    }).catch((err)=>{
-        console.log(err);
-    })
-
-    //
-
-    
-
+connectDB().then(() => {
+  app.listen(port, () => {
+    console.log(`App listening on port ${port}`.bgCyan.white);
+  });
+}).catch((err) => {
+  console.log(err);
+});
